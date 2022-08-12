@@ -29,4 +29,10 @@ class ExpenseService(private var expenses: List<Expense>) {
         return expenses
     }
 
+    fun getExpenseDetail(id: Long): Expense {
+        return expenses.stream().filter { e ->
+            e.id == id
+        }.findFirst().get()
+    }
+
 }
