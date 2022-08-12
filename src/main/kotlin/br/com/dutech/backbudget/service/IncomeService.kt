@@ -29,4 +29,10 @@ class IncomeService(private var incomes: List<Income>) {
         return incomes
     }
 
+    fun getIncomeDetail(id: Long): Income {
+        return incomes.stream().filter {
+            i -> i.id == id
+        }.findFirst().get()
+    }
+
 }
