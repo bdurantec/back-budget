@@ -25,13 +25,13 @@ class IncomeService(private var incomes: List<Income>) {
         incomes = Arrays.asList(income1, income2)
     }
 
-    fun getIncomeList(): List<Income>{
+    fun getIncomeList(): List<Income> {
         return incomes
     }
 
     fun getIncomeDetail(id: Long): Income {
-        return incomes.stream().filter {
-            i -> i.id == id
+        return incomes.stream().filter { i ->
+            i.id == id
         }.findFirst().get()
     }
 
