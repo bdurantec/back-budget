@@ -2,6 +2,7 @@ package br.com.dutech.backbudget.service
 
 import br.com.dutech.backbudget.dto.ExpenseView
 import br.com.dutech.backbudget.dto.NewExpenseForm
+import br.com.dutech.backbudget.dto.UpdateExpenseDTO
 import br.com.dutech.backbudget.mapper.ExpenseFormMapper
 import br.com.dutech.backbudget.mapper.ExpenseViewMapper
 import br.com.dutech.backbudget.model.Expense
@@ -29,6 +30,22 @@ class ExpenseService(
         expense.id = expenses.size.toLong() + 1
         expenses = expenses.plus(expense)
         return expenseViewMapper.map(expense)
+    }
+
+    fun update(dto: UpdateExpenseDTO): ExpenseView {
+        val expense = expenses.stream().filter { e ->
+            e.id == dto.id
+        }.findFirst().get()
+
+        val newExpense = Expense(
+            id = expense.id,
+            description = dto.description,
+            value = dto.value,
+            date = expense.date
+        )
+
+        expenses = expenses.minus(expense).plus(newExpense)
+        return expenseViewMapper.map(newExpense)
     }
 
 }
