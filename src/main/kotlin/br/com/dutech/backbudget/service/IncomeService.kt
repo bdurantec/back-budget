@@ -1,14 +1,17 @@
 package br.com.dutech.backbudget.service
 
+import br.com.dutech.backbudget.dto.IncomeView
 import br.com.dutech.backbudget.dto.NewIncomeForm
-import br.com.dutech.backbudget.mapper.NewIncomeFormMapper
+import br.com.dutech.backbudget.mapper.IncomeFormMapper
+import br.com.dutech.backbudget.mapper.IncomeViewMapper
 import br.com.dutech.backbudget.model.Income
 import org.springframework.stereotype.Service
 
 @Service
 class IncomeService(
     private var incomes: List<Income>,
-    private var newIncomeFormMapper: NewIncomeFormMapper
+    private var incomeFormMapper: IncomeFormMapper,
+    private var incomeViewMapper: IncomeViewMapper
 ) {
 
     fun getIncomeList(): List<Income> {
@@ -21,10 +24,11 @@ class IncomeService(
         }.findFirst().get()
     }
 
-    fun registerIncome(form: NewIncomeForm) {
-        val income = newIncomeFormMapper.map(form)
+    fun registerIncome(form: NewIncomeForm): IncomeView {
+        val income = incomeFormMapper.map(form)
         income.id = incomes.size.toLong() + 1
         incomes = incomes.plus(income)
+        return incomeViewMapper.map(income)
     }
 
 }

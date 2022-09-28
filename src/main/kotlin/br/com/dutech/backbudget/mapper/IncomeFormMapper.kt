@@ -5,7 +5,7 @@ import br.com.dutech.backbudget.model.Income
 import org.springframework.stereotype.Component
 
 @Component
-class NewIncomeFormMapper: Mapper<NewIncomeForm, Income> {
+class IncomeFormMapper: Mapper<NewIncomeForm, Income> {
     override fun map(t: NewIncomeForm): Income {
         return Income(
             description = t.description,
