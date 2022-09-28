@@ -48,4 +48,12 @@ class ExpenseService(
         return expenseViewMapper.map(newExpense)
     }
 
+    fun deleteExpense(id: Long) {
+        val expense = expenses.stream().filter {
+            e -> e.id == id
+        }.findFirst().get()
+
+        expenses = expenses.minus(expense)
+    }
+
 }

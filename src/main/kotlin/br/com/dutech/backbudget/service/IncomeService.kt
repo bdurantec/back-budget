@@ -48,4 +48,12 @@ class IncomeService(
         return incomeViewMapper.map(newIncome)
     }
 
+    fun deleteIncome(id: Long) {
+        val income = incomes.stream().filter {
+            i -> i.id == id
+        }.findFirst().get()
+
+        incomes = incomes.minus(income)
+    }
+
 }
