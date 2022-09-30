@@ -3,6 +3,7 @@ package br.com.dutech.backbudget.service
 import br.com.dutech.backbudget.dto.ExpenseView
 import br.com.dutech.backbudget.dto.NewExpenseForm
 import br.com.dutech.backbudget.dto.UpdateExpenseDTO
+import br.com.dutech.backbudget.exception.NotFoundException
 import br.com.dutech.backbudget.mapper.ExpenseFormMapper
 import br.com.dutech.backbudget.mapper.ExpenseViewMapper
 import br.com.dutech.backbudget.model.Expense
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 class ExpenseService(
     private var expenses: List<Expense>,
     private val expenseFormMapper: ExpenseFormMapper,
-    private val expenseViewMapper: ExpenseViewMapper
+    private val expenseViewMapper: ExpenseViewMapper,
+    private var notFoundMessage: String = "Expense not found."
 ) {
 
     fun getExpenseList(): List<Expense> {
@@ -22,7 +24,7 @@ class ExpenseService(
     fun getExpenseDetail(id: Long): Expense {
         return expenses.stream().filter { e ->
             e.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException(notFoundMessage) }
     }
 
     fun registerExpense(form: NewExpenseForm): ExpenseView {
@@ -35,7 +37,7 @@ class ExpenseService(
     fun update(dto: UpdateExpenseDTO): ExpenseView {
         val expense = expenses.stream().filter { e ->
             e.id == dto.id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException(notFoundMessage) }
 
         val newExpense = Expense(
             id = expense.id,
@@ -51,7 +53,7 @@ class ExpenseService(
     fun deleteExpense(id: Long) {
         val expense = expenses.stream().filter {
             e -> e.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException(notFoundMessage) }
 
         expenses = expenses.minus(expense)
     }
