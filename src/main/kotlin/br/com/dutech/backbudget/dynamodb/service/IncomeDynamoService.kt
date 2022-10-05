@@ -1,9 +1,9 @@
 package br.com.dutech.backbudget.dynamodb.service
 
-import br.com.dutech.backbudget.dynamodb.model.IncomeDynamoDb
+import br.com.dutech.backbudget.dynamodb.model.IncomeDynamo
 
 interface IncomeDynamoService {
 
-    fun getIncome(id: String): IncomeDynamoDb
+    fun getIncome(id: Long): IncomeDynamo
 
 }

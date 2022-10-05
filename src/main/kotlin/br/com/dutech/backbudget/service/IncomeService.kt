@@ -3,6 +3,7 @@ package br.com.dutech.backbudget.service
 import br.com.dutech.backbudget.dto.IncomeView
 import br.com.dutech.backbudget.dto.NewIncomeForm
 import br.com.dutech.backbudget.dto.UpdateIncomeDTO
+import br.com.dutech.backbudget.dynamodb.service.IncomeDynamoService
 import br.com.dutech.backbudget.exception.NotFoundException
 import br.com.dutech.backbudget.mapper.IncomeFormMapper
 import br.com.dutech.backbudget.mapper.IncomeViewMapper
@@ -14,6 +15,7 @@ class IncomeService(
     private var incomes: List<Income>,
     private var incomeFormMapper: IncomeFormMapper,
     private var incomeViewMapper: IncomeViewMapper,
+    private var incomeDynamoService: IncomeDynamoService,
     private var notFoundMessage:String = "Income not found."
 ) {
 
@@ -56,6 +58,11 @@ class IncomeService(
         }.findFirst().orElseThrow { NotFoundException(notFoundMessage) }
 
         incomes = incomes.minus(income)
+    }
+
+    fun getIncomeDynamoDbTest(id: Long): String{
+        val retorno = incomeDynamoService.getIncome(id)
+        return retorno.description
     }
 
 }

@@ -52,4 +52,9 @@ class IncomeController(val service: IncomeService) {
         service.deleteIncome(id)
     }
 
+    @GetMapping("/dynamodb/{id}")
+    fun getIncomeDynamoDbTest(@PathVariable id: Long): String {
+        return service.getIncomeDynamoDbTest(id)
+    }
+
 }
